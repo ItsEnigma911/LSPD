@@ -6,12 +6,10 @@ access control, an activity/points system, department + per-division chat
 rooms, CID case management, a support ticket system, and per-division
 handbook uploads.
 
-**Two pieces, both deliberately simple:** a React frontend (`/`), and a
-small backend (`/server`) that stores everything in one JSON file — no
-database software to install, no Docker, no build step for the backend.
-The backend exists for exactly one reason: **so data actually syncs between
-different browsers/devices**, instead of everyone having their own separate
-local copy.
+**Two pieces:** a React frontend (`/`), and a small backend (`/server`)
+that stores everything in Postgres (Neon). The backend exists for exactly
+one reason: **so data actually syncs between different browsers/devices**,
+instead of everyone having their own separate local copy.
 
 ## Running it locally
 
@@ -110,10 +108,11 @@ src/                     Frontend (React + TypeScript + Vite)
   hooks/                 usePermissions
   components/            Same structure as before — Landing, Auth, Layout, Dashboard, Chat, Divisions, CID, Admin, Tickets
 
-server/                  Backend — one file, no database engine
-  server.js              All API routes; reads/writes data.json
+server/                  Backend — Express + Postgres (Neon)
+  server.js              All API routes; reads/writes one JSON blob in Postgres
   seed-data.js           Initial ranks/divisions/activity types/accounts (fresh installs only)
-  data.json              Created automatically on first run — this IS the database. Back it up.
+  api/index.js           Vercel serverless entry point
+  vercel.json            Routes all paths to api/index.js on Vercel
   README.md              More detail on how it works and hosting it
 ```
 
