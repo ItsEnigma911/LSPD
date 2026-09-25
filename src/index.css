@@ -1,0 +1,59 @@
+@import url("https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap");
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html, body, #root {
+  height: 100%;
+}
+
+body {
+  @apply bg-ink-900 text-bone-100 font-body antialiased;
+  background-color: #05070c;
+  position: relative;
+}
+
+/* Lightbar glow layer — black glass in the middle, a red glow bleeding in
+   from the left and a blue glow from the right, like a cruiser's lightbar
+   diffused through fog. Sits behind all content, fixed to the viewport. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(700px circle at 6% 45%, rgba(166, 51, 47, 0.38), transparent 62%),
+    radial-gradient(700px circle at 94% 55%, rgba(43, 90, 166, 0.38), transparent 62%),
+    radial-gradient(1200px circle at 50% 50%, rgba(10, 14, 23, 0.92), rgba(5, 7, 12, 1) 72%);
+  filter: blur(50px);
+  animation: lightbar-glow 6s ease-in-out infinite;
+}
+
+@keyframes lightbar-glow {
+  0%, 100% { opacity: 0.8; }
+  50% { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body::before { animation: none; }
+}
+
+::selection {
+  @apply bg-brass-500/30;
+}
+
+/* Thin brass scrollbar to match the duty-board aesthetic */
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: #0E1420; }
+::-webkit-scrollbar-thumb { background: #2B3A55; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #B8934A; }
+
+.case-editor [contenteditable] {
+  outline: none;
+}
+.case-editor [contenteditable] mark {
+  background: #B8934A55;
+  color: inherit;
+  padding: 0 1px;
+}
